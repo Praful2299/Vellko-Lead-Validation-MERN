@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 
-
 // SIGNUP
 exports.signup = async (req, res) => {
   try {
@@ -41,12 +40,10 @@ exports.signup = async (req, res) => {
     res.json({
       message: "Signup successful! Check your email to verify.",
     });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // VERIFY EMAIL
 exports.verifyEmail = async (req, res) => {
@@ -71,12 +68,10 @@ exports.verifyEmail = async (req, res) => {
     );
 
     res.json({ message: "Email verified successfully" });
-
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 // LOGIN
 exports.login = async (req, res) => {
@@ -112,9 +107,12 @@ exports.login = async (req, res) => {
   }
 };
 
-
 // LOGGED-IN USER DATA
 exports.me = async (req, res) => {
-  const user = await User.findById(req.user.userId).select("-password");
-  res.json(user);
+  try {
+    const user = await User.findById(req.user.userId).select("-password");
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

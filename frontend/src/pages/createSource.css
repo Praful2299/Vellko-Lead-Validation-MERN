@@ -1,0 +1,197 @@
+.create-wrapper{
+  min-height:100vh;
+  padding:40px;
+  background: radial-gradient(circle at top,#132a53,#020617);
+  color:white;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* Heading */
+.create-wrapper h2{
+  font-size:30px;
+  margin-bottom:20px;
+}
+
+/* Form */
+.create-form{
+  display:flex;
+  gap:12px;
+  margin-bottom:20px;
+}
+
+.create-form input{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(255,255,255,.08);
+  color:white;
+  width:260px;
+}
+
+.create-form button{
+  padding:12px 18px;
+  border-radius:12px;
+  border:none;
+  cursor:pointer;
+  font-weight:600;
+  background:linear-gradient(135deg,#2563eb,#4f46e5);
+  color:white;
+}
+
+.create-form button:disabled{
+  opacity:.6;
+}
+
+/* Styled Card Option */
+
+.source-card{
+  width:480px;
+  max-width:95%;
+  background:rgba(255,255,255,.05);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(12px);
+  padding:20px 22px;
+  box-shadow:0 12px 45px rgba(0,0,0,.45);
+  margin-top:10px;
+}
+
+.source-card h3{
+  margin-top:0;
+  margin-bottom:14px;
+}
+
+
+/* Layout wrapper */
+.source-info{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+
+/* Each row */
+.source-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+
+  background:rgba(0,0,0,.22);
+  padding:12px 14px;
+  border-radius:14px;
+}
+
+
+/* Label */
+.source-row span{
+  font-size:.95rem;
+  opacity:.9;
+}
+
+
+/* Value display */
+.source-row code{
+  background:rgba(255,255,255,.12);
+  padding:8px 10px;
+  border-radius:12px;
+  word-break:break-all;
+  font-size:.85rem;
+  max-width:65%;
+  text-align:left;
+}
+
+
+/* POPUP */
+
+.popup-card{
+  width:420px;
+  padding:26px;
+  border-radius:18px;
+  color:white;
+  text-align:center;
+  backdrop-filter:blur(10px);
+  animation:fadeIn .35s ease;
+}
+
+/* container spacing */
+.popup-info{
+  margin-top:14px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+/* each row is clean + aligned */
+.popup-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  background:rgba(0,0,0,.25);
+  padding:10px 12px;
+  border-radius:12px;
+}
+
+/* label */
+.popup-row span{
+  font-size:.95rem;
+  opacity:.9;
+}
+
+/* value box */
+.popup-row code{
+  background:rgba(255,255,255,.1);
+  padding:6px 10px;
+  border-radius:10px;
+  word-break:break-all;
+  max-width:60%;
+  text-align:left;
+  font-size:.85rem;
+}
+
+@media(max-width:500px){
+  .popup-card{
+    width:90%;
+  }
+
+  .popup-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .popup-row code{
+    max-width:100%;
+  }
+}
+@media(max-width:600px){
+
+  .source-row{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .source-row code{
+    max-width:100%;
+  }
+}
+
+.error{
+  border:1px solid rgba(255,80,80,.9) !important;
+  background:rgba(255,0,0,.08) !important;
+}
+
+.err-text{
+  color:#f87171;
+  margin-top:-8px;
+  margin-bottom:6px;
+  font-size:.8rem;
+}
+
+
+@keyframes fadeIn{
+  from{opacity:0; transform:scale(.96);}
+  to{opacity:1; transform:scale(1);}
+}

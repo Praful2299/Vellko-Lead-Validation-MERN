@@ -7,6 +7,7 @@ import Sources from "./pages/Sources";
 import CreateSource from "./pages/CreateSource";
 import ValidateLead from "./pages/ValidateLead";
 import Leads from "./pages/Leads";
+import Navbar from "./components/Navbar";
 
 function PrivateRoute({ children }) {
   const token = localStorage.getItem("token");
@@ -14,8 +15,13 @@ function PrivateRoute({ children }) {
 }
 
 export default function App() {
+  const token = localStorage.getItem("token");
+
   return (
     <BrowserRouter>
+
+      {token && <Navbar />}   {/* <-- renders ONLY when logged in */}
+
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/signup" element={<Signup />} />

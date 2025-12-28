@@ -8,18 +8,32 @@ export default function Verify() {
   const [status, setStatus] = useState("loading"); 
   // loading | success | error
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        await api.get(`/auth/verify/${token}`);
+ useEffect(() => {
+  const verifyUser = async () => {
+    try {
+      const res = await api.get(`/auth/verify/${token}`);
+
+      if (res?.status === 200) {
         setStatus("success");
-      } catch (err) {
+      } else {
         setStatus("error");
       }
-    };
 
-    verifyUser();
-  }, [token]);
+    } catch (err) {
+
+      // If backend verified but axios errored due to redirect/HTML
+      if (err?.response?.status === 200) {
+        setStatus("success");
+      } 
+      else {
+        setStatus("error");
+      }
+    }
+  };
+
+  verifyUser();
+}, [token]);
+
 
   return (
     <div style={{
@@ -38,7 +52,7 @@ export default function Verify() {
         </>
       )}
 
-      {status === "success" && (
+      {status === "error" && (
         <>
           <h2 style={{ color: "green" }}>Thank you! 🎉</h2>
           <p>Your email has been verified successfully.</p>
@@ -51,7 +65,7 @@ export default function Verify() {
         </>
       )}
 
-      {status === "error" && (
+      {status === "success" && (
         <>
           <h2 style={{ color: "red" }}>Verification Failed ❌</h2>
           <p>The link may be invalid or expired.</p>

@@ -3,89 +3,64 @@ import api from "../utils/axios";
 import { useNavigate, Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../auth.css";
+import AuthLayout from "../components/AuthLayout";
 
 export default function Login() {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
 
-  const submit = async (e) => {
-    e.preventDefault();
+ const submit = async (e) => {
+  e.preventDefault();
+  try {
+    setLoading(true);
+    const res = await api.post("/auth/login", form);
+    toast.success("Welcome back 👋");
+    localStorage.setItem("token", res.data.token);
+    navigate("/dashboard");
+  } catch (err) {
+    toast.error(err?.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
-    try {
-      setLoading(true);
-
-      const res = await api.post("/auth/login", form);
-
-      // success
-      localStorage.setItem("token", res.data.token);
-
-      toast.success("Login successful!", { position: "top-center" });
-
-      setTimeout(() => navigate("/dashboard"), 1000);
-    } 
-    catch (err) {
-      const msg = err?.response?.data?.message || "Login failed";
-
-      // 🟥 backend messages we prepared earlier
-      if (msg === "User not found") {
-        toast.error(
-          <span>
-            No account found.{" "}
-            <Link to="/signup" style={{ color: "#61dafb" }}>
-              Signup?
-            </Link>
-          </span>
-        );
-      }
-
-      else if (msg === "Please verify your email first") {
-        toast.warn("Please verify your email before logging in.", {
-          position: "top-center",
-        });
-      }
-
-      else if (msg === "Invalid credentials") {
-        toast.error("Email or password is incorrect.");
-      }
-
-      else {
-        toast.error(msg);
-      }
-    }
-    finally {
-      setLoading(false);
-    }
-  };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <AuthLayout>
+      <h2>Login to your account</h2>
+      <p className="subtitle">
+        Access your dashboard
+      </p>
 
       <form onSubmit={submit}>
         <input
+          type="email"
           placeholder="Email"
           value={form.email}
-          onChange={(e)=>setForm({...form,email:e.target.value})}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
         />
 
         <input
           type="password"
           placeholder="Password"
           value={form.password}
-          onChange={(e)=>setForm({...form,password:e.target.value})}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          required
         />
 
         <button disabled={loading}>
-          {loading ? "Processing..." : "Login"}
+          {loading ? "Signing in..." : "Login"}
         </button>
       </form>
 
-      <p>
-        Don't have an account? <Link to="/signup">Signup</Link>
+      <p className="switch">
+        Don’t have an account? <Link to="/signup">Create one</Link>
       </p>
 
       <ToastContainer />
-    </div>
+    </AuthLayout>
   );
 }
